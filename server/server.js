@@ -9,6 +9,19 @@ const {ObjectID} = require('mongodb')
 
 
 const app = express();
+const port = process.env.PORT || 3000
+
+const db = require('../config/database');
+console.log(db)
+// connect to mongoose
+mongoose.connect(db.mongoURI, {
+    useMongoClient: true
+})
+    .then(() => {
+    console.log('connected to db')
+    }).catch(err => {
+        console.log(err)
+    })
 
 app.use(bodyParser.json())
 
@@ -49,8 +62,8 @@ app.get('/charters/:id', (req, res)=>{
 },(e)=>{
 
 })
-app.listen(3000, ()=>{
-    console.log ('Server started on 3000')
+app.listen(port, ()=>{
+    console.log (`Server started on ${port}`);
 })
 
 module.exports = {
