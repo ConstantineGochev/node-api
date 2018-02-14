@@ -32,7 +32,7 @@ app.post('/charters',(req, res)=>{
     });
 
     charter.save().then((doc)=>{
-       res.status(400).send(doc)
+       res.status(200).send(doc)
     },(e)=>{
         console.log(e);
     })
