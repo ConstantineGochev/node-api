@@ -23,9 +23,14 @@ mongoose.connect(db.mongoURI, {
         console.log(err)
     })
 
+app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+      });
 app.use(bodyParser.json())
 
-app.post('/charters',(req, res)=>{
+app.post('/charters',(req, res, next)=>{
     console.log(req.body)
     var charter = new Charter({
         model: req.body.model
@@ -38,7 +43,7 @@ app.post('/charters',(req, res)=>{
     })
 })
 
-app.get('/charters', (req, res )=>{
+app.get('/charters', (req, res, next )=>{
     Charter.find().then((charters)=>{
         res.send({charters});
     },(e)=>{
@@ -46,7 +51,7 @@ app.get('/charters', (req, res )=>{
     })
 })
 
-app.get('/charters/:id', (req, res)=>{
+app.get('/charters/:id', (req, res, next)=>{
     var id = req.params.id
     if(!ObjectID.isValid(id)){
         return res.status(404).send();
